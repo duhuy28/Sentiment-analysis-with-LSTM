@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
-from sklearn.metrics import f1_score, accuracy_score
+from sklearn.metrics import f1_score
 from tqdm import tqdm
-from LSTM import LSTM
+from src.LSTM import LSTM
 import pickle
 import matplotlib.pyplot as plt
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
