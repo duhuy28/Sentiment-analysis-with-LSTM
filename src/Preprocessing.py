@@ -26,5 +26,5 @@ def split_string(text):
   return text.replace(',', ' ').replace('.', ' ').lower().split()
 
 
-embeddings_path = "data/glove.6B.50d.txt"  # path to your embedding file
+embeddings_path = "../data/glove.6B.50d.txt"  # path to your embedding file
 embeddings = read_embeddings(embeddings_path)

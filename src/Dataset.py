@@ -33,8 +33,6 @@ def create_dataloader(dataset, device, batch_size, shuffle=True):
 
 if __name__ == '__main__':
     dataset = load_dataset("stanfordnlp/imdb").shuffle(42)
-    # dataset.save_to_disk("imdb")
-    # dataset = load_dataset("imdb")
     train_dataset = dataset['train'][:3000]
     test_dataset = dataset['test'][:1000]
     train_dataloader = create_dataloader(train_dataset, device, 1)
@@ -44,11 +42,11 @@ if __name__ == '__main__':
     test_data_list = [batch for batch in test_dataloader]
 
     # Save using pickle
-    with open('data/train_dataloader_data.pkl', 'wb') as f:
+    with open('../data/train_dataloader_data.pkl', 'wb') as f:
         pickle.dump(train_data_list, f)
     print("DataLoader saved to train_dataloader_data.pkl")
 
-    with open('data/test_dataloader_data.pkl', 'wb') as f:
+    with open('../data/test_dataloader_data.pkl', 'wb') as f:
         pickle.dump(test_data_list, f)
     print("DataLoader saved to test_dataloader_data.pkl")
 

@@ -2,7 +2,8 @@ import torch
 import torch.nn as nn
 from sklearn.metrics import f1_score
 from tqdm import tqdm
-from src.LSTM import LSTM
+from src.model.LSTM import LSTM
+from src.model.RNN import RNN
 import pickle
 import matplotlib.pyplot as plt
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -53,26 +54,24 @@ def train(model, num_epochs, loss_function, optimizer,
 def visualize_data(data, title):
   # [ToDo]
     plt.plot(data[0],label='train_loss')
-    plt.plot(data[1],label= 'valid_loss')
+    plt.plot(data[1],label= 'f1_score')
     plt.title(title)
     plt.xlabel('epoch')
     plt.legend()
     plt.show()
 
 if __name__ == '__main__':
-
     ## load the data
-    with open('data/train_dataloader_data.pkl', 'rb') as f:
+    with open('../data/train_dataloader_data.pkl', 'rb') as f:
         train_dataloader = pickle.load(f)
-    with open('data/test_dataloader_data.pkl', 'rb') as f:
+    with open('../data/test_dataloader_data.pkl', 'rb') as f:
         test_dataloader = pickle.load(f)
-
-    lstm = LSTM(50, 100, 1)
-    lstm.to(device)
+    model = LSTM(50, 100, 1)
+    model.to(device)
     loss_function = nn.BCELoss()
-    optimizer_lstm = torch.optim.Adam(lstm.parameters(), lr=0.0007)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.0007)
     num_epochs = 15
-    epoch_loss_logger, epoch_f1_scores=train(lstm, num_epochs, loss_function, optimizer_lstm, train_dataloader, test_dataloader, device)
+    epoch_loss_logger, epoch_f1_scores=train(model, num_epochs, loss_function, optimizer, train_dataloader, test_dataloader, device)
     visualize_data([epoch_loss_logger, epoch_f1_scores], 'LSTM')
-    torch.save(lstm, 'lstm_pytorch.pt')
+    torch.save(model, 'lstm.pt')
 
